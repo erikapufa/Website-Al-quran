@@ -1,400 +1,599 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="format-detection" content="telephone=no">
-
-    <meta name="theme-color" content="#ffffff">
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>Kalender Hijriyah</title>
-    <meta name="description" content="Kalender Hijriyah">
-    <meta name="keywords"
-        content="bootstrap 4, mobile template, 404, chat, about, cordova, phonegap, mobile, html, ecommerce, shopping, store, delivery, wallet, banking, education, jobs, careers, distance learning" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- favicon -->
-    <link rel="icon" type="image/png" href="assets/img/favicon/favicon2.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="assets/img/favicon/favicon2.png">
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- CSS Libraries-->
-    <!-- bootstrap v4.6.0 -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!--
-        theiconof v3.0
-        https://www.theiconof.com/search
-     -->
+    <style>
+      :root {
+        --primary-color: #213555;
+        --primary-hover: #0056b3;
+        --background-color: #213555;
+        --card-bg: white;
+        --diamond-bg: #4f709c;
+        --text-color: #0056b3;
+        --secondary-text: #9ca3af;
+        --hadith-bg: #f0f0f0;
+        --hadith-text-color: black;
+      }
 
-    <link rel="stylesheet" href="assets/css/icons.css">
-    <!-- Remix Icon -->
-    <link rel="stylesheet" href="assets/css/remixicon.css">
-    <!-- Swiper 6.4.11 -->
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-    <!-- Owl Carousel v2.3.4 -->
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <!-- normalize.css v8.0.1 -->
-    <link rel="stylesheet" href="assets/css/normalize.css">
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--background-color);
+        padding: 20px;
+        color: var(--text-color);
+        margin: 0;
+      }
 
-    <!-- manifest meta -->
-    <link rel="manifest" href="_manifest.json" />
-    <link rel="stylesheet" href="assets/css/style_kalender.css">
+      h1 {
+        text-align: center;
+        color: var(--card-bg);
+        margin-bottom: 30px;
+      }
 
-</head>
-<body>
-  <div id="wrapper">
-    <div id="content">
-    
-      <header class="main_haeder header-sticky multi_item">
-        <div class="em_menu_sidebar">
-            <button type="button" class="btn btn_menuSidebar item-show" data-toggle="modal" data-target="#mdllSidebarMenu-background">
-                <i class="ri-menu-fill"></i>
-            </button>
-        </div>
-        <div class="title_page">
-            <span class="page_name">
-                Kalender Hijriyah
-            </span>
-        </div>
-        <div class="em_side_right">
-            <button class="btn rounded-circle share-button bg-transparent" data-toggle="modal" data-target="#mdllButtons_share">
-                <i class="ri-share-forward-box-line"></i>
-            </button>
+      .year-header {
+        text-align: center;
+        color: var(--card-bg);
+        margin-bottom: 20px;
+        font-size: 1.4rem;
+      }
 
-        </div>
-      </header>
+      .btn-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-      <!-- content -->
-      <div class="container">
-        <!-- Kalender -->
-        <div class="calendar">
-          <div class="header">
-            <button onclick="prevMonth()">&#9665;</button>
-            <div>
-              <h2 id="monthYear">Loading...</h2>
-              <p id="gregorianDate" style="font-size:0.9em;">Loading...</p>
-            </div>
-            <button onclick="nextMonth()">&#9655;</button>
-          </div>
-          <div class="weekdays" id="weekdays">
-            <!-- Nama hari dari API -->
-          </div>
-          <div class="days" id="calendarDays">
-            <!-- Sel tanggal akan ditampilkan di sini -->
-          </div>
-        </div>
-        <!-- Sidebar: Fitur Tambahan -->
-        <div class="sidebar">
-          <h3>Semua Event</h3>
-          <div id="allEventsList">
-            <!-- Daftar event akan tampil di sini -->
-          </div>
-          <button class="reset-btn" onclick="resetAllEvents()">Reset Semua Event</button>
-        </div>
+      .btn-year {
+        margin: 0 5px;
+        border-color: var(--card-bg);
+        color: var(--card-bg);
+        background-color: transparent;
+      }
+      .btn-year:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        color: #fff;
+      }
+
+      .btn-year-mobile {
+        margin: 0 5px;
+        border-color: var(--card-bg);
+        color: var(--card-bg);
+        background-color: transparent;
+      }
+
+      /* Grid untuk kalender */
+      .year-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-row-gap: 30px;
+        grid-column-gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Card bulan */
+      .month-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--diamond-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .month-header {
+        background: var(--diamond-bg);
+        color: #fff;
+        text-align: center;
+        padding: 8px 0;
+        font-weight: 600;
+      }
+
+      .day-names {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.8rem;
+        border-bottom: 1px solid var(--diamond-bg);
+        background-color: var(--card-bg);
+      }
+      .day-names div {
+        padding: 6px 0;
+        color: var(--text-color);
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-auto-rows: 50px;
+        gap: 2px;
+        padding: 6px;
+      }
+
+      .calendar-cell {
+        border: 1px solid var(--diamond-bg);
+        border-radius: 4px;
+        background: var(--card-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 2px;
+        position: relative;
+      }
+
+      .date-hijri {
+        color: #213555;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.8rem;
+      }
+
+      .date-greg {
+        font-size: 0.7rem;
+        color: #4c585b;
+        margin-top: 2px;
+      }
+      .month-header {
+        background: var(--diamond-bg);
+        color: #fff;
+        padding: 8px 0;
+        font-weight: 600;
+      }
+
+      /* Wadah fleksibel di dalam month-header */
+      .header-container {
+        display: flex; /* Aktifkan Flexbox */
+        justify-content: space-between; /* Hijri di kiri, tanggal di kanan */
+        align-items: center; /* Vertikal center */
+        margin: 0 10px; /* Jarak horizontal */
+      }
+
+      .hijri-left {
+        font-size: 1.2rem; /* Sesuaikan ukuran font */
+        font-weight: bold;
+      }
+
+      .date-right {
+        text-align: right; /* Teks rata kanan */
+        font-size: 0.85rem; /* Ukuran font lebih kecil */
+      }
+
+      .calendar-cell.sunday .date-hijri,
+      .calendar-cell.sunday .date-greg {
+        color: #b82132 !important;
+      }
+
+      /* Highlight default puasa Senin-Kamis dan Ayyamul Bidh */
+      .puasa-senin-kamis {
+        background-color: #a1e3f9 !important;
+        color: #fff;
+      }
+
+      .puasa-ayyamul-bidh {
+        background-color: #fca997 !important;
+        color: #fff;
+      }
+
+      /* Highlight khusus untuk Ramadhan (1-30) */
+      .puasa-ramadhan {
+        background-color: #d0e8c5 !important;
+        color: #fff;
+      }
+
+      /* Highlight untuk 1 Syawal (Idul Fitri) */
+      .idul-fitri {
+        background-color: #feff9f !important;
+        color: #fff;
+      }
+
+      .legend-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        display: flex;
+        gap: 10px;
+        color: var(--card-bg);
+        font-size: 0.85rem;
+        align-items: center;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1px solid var(--diamond-bg);
+      }
+      .legend-senin-kamis {
+        background-color: #a1e3f9;
+      }
+      .legend-ayyamul-bidh {
+        background-color: #fca997;
+      }
+      .legend-ramadhan {
+        background-color: #d0e8c5;
+      }
+      .legend-idul-fitri {
+        background-color: #feff9f;
+      }
+      @media (max-width: 768px) {
+        .year-grid {
+          grid-template-columns: 1fr;
+          grid-row-gap: 20px;
+        }
+        /* Sembunyikan semua month-card kecuali yang pertama */
+        .month-card {
+          display: none;
+        }
+        .month-card:nth-child(1) {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Kalender Hijriyah</h1>
+
+    <!-- Tampilan Desktop (kalender tahunan) -->
+    <div class="desktop-calendar d-none d-md-block">
+      <div class="btn-container">
+        <button id="prevYearBtn" class="btn btn-year">&laquo; Prev</button>
+        <span class="year-header" id="yearTitle"></span>
+        <button id="nextYearBtn" class="btn btn-year">Next &raquo;</button>
       </div>
-    
-      <!-- Modal untuk Event Per Hari -->
-      <div class="modal" id="eventModal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <h3 id="modalDate"></h3>
-          <div id="eventList"></div>
-          <hr>
-          <h4>Tambah Event</h4>
-          <input type="text" id="eventInput" placeholder="Deskripsi event">
-          <button class="save-btn" onclick="addEvent()">Simpan</button>
-        </div>
+      <div id="yearGrid" class="year-grid"></div>
+    </div>
+
+    <!-- Tampilan Mobile (navigasi per bulan) -->
+    <div class="mobile-calendar d-md-none">
+      <div class="btn-container">
+        <button id="prevMonthBtn" class="btn btn-year-mobile">&laquo;</button>
+        <span id="mobileMonthTitle" class="year-header"></span>
+        <button id="nextMonthBtn" class="btn btn-year-mobile">&raquo;</button>
       </div>
-
-        <!-- Sidebar: Modal untuk Menampilkan Semua Event -->
-  <div class="modal" id="allEventsModal" style="display:none;">
-    <div class="modal-content" style="max-width:500px;">
-      <span class="close" onclick="closeAllEventsModal()">&times;</span>
-      <h3>Semua Event</h3>
-      <div id="allEventsList"></div>
-      <hr>
-      <button class="save-btn" onclick="resetAllEvents()">Reset Semua Event</button>
-    </div>
-    </div>
+      <div id="mobileMonthContainer" class="year-grid"></div>
     </div>
 
-    
-
-    <footer class="em_main_footer ouline_footer with__text">
-        <div class="em_body_navigation -active-links">
-            <div class="item_link">
-                <a href="app-pages.html" class="btn btn_navLink">
-                    <div class="icon_current">
-                        <svg id="Iconly_Curved_Document" data-name="Iconly/Curved/Document" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g id="Document" transform="translate(3.61 2.75)">
-                                <path id="Stroke_1" data-name="Stroke 1" d="M7.22.5H0" transform="translate(4.766 12.446)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_2" data-name="Stroke 2" d="M7.22.5H0" transform="translate(4.766 8.686)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_3" data-name="Stroke 3" d="M2.755.5H0" transform="translate(4.766 4.927)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_4" data-name="Stroke 4" d="M0,9.25c0,6.937,2.1,9.25,8.391,9.25s8.391-2.313,8.391-9.25S14.685,0,8.391,0,0,2.313,0,9.25Z" transform="translate(0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="txt__tile">Pages</div>
-                </a>
-            </div>
-            <div class="item_link">
-                <a href="app-components.html" class="btn btn_navLink">
-                    <div class="icon_current">
-                        <svg id="Iconly_Curved_More_Circle" data-name="Iconly/Curved/More Circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g id="More_Circle" data-name="More Circle" transform="translate(2 2)">
-                                <path id="Stroke_4" data-name="Stroke 4" d="M0,9.25C0,2.313,2.313,0,9.25,0S18.5,2.313,18.5,9.25,16.187,18.5,9.25,18.5,0,16.187,0,9.25Z" transform="translate(0.75 0.75)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_11" data-name="Stroke 11" d="M.5.5H.5" transform="translate(12.709 11.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                                <path id="Stroke_13" data-name="Stroke 13" d="M.5.5H.5" transform="translate(9.709 7.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                                <path id="Stroke_15" data-name="Stroke 15" d="M.5.5H.5" transform="translate(6.7 11.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                            </g>
-                        </svg>
-                    </div>
-      
-                    <div class="txt__tile">Elements</div>
-                </a>
-            </div>
-            <div class="item_link">
-                <a href="index.html" class="btn btn_navLink without_active">
-                    <button type="button" class="btn btnCircle_default rounded-10">
-                        <svg id="Iconly_Curved_Home" data-name="Iconly/Curved/Home" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                            <g id="Home" transform="translate(2 1.667)">
-                                <path id="Stroke_1" data-name="Stroke 1" d="M0,.5H4.846" transform="translate(5.566 11.28)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_2" data-name="Stroke 2" d="M0,9.761C0,5.068.512,5.4,3.266,2.842,4.471,1.872,6.346,0,7.965,0S11.5,1.862,12.712,2.842c2.754,2.554,3.265,2.227,3.265,6.919,0,6.906-1.633,6.906-7.988,6.906S0,16.667,0,9.761Z" transform="translate(0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                            </g>
-                        </svg>
-      
-                    </button>
-                </a>
-            </div>
-            <div class="item_link">
-                <a href="page-products-fullwidth.html" class="btn btn_navLink">
-                    <div class="icon_current">
-                        <svg id="Iconly_Curved_Bag" data-name="Iconly/Curved/Bag" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g id="Bag" transform="translate(2.95 2.55)">
-                                <path id="Stroke_1" data-name="Stroke 1" d="M8.659,4.32A4.33,4.33,0,0,0,0,4.3V4.32" transform="translate(4.755 0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_3" data-name="Stroke 3" d="M.523.5H.477" transform="translate(11.5 8.324)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_5" data-name="Stroke 5" d="M.523.5H.477" transform="translate(5.669 8.324)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_7" data-name="Stroke 7" d="M9.084,14.934c-6.508,0-7.257-2.05-8.718-7.467C-1.1,2.033,1.841,0,9.084,0S19.268,2.033,17.8,7.467C16.341,12.884,15.592,14.934,9.084,14.934Z" transform="translate(0 4.006)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="items_basket_circle">2</div>
-                    <div class="txt__tile">Shop</div>
-                </a>
-            </div>
-            <div class="item_link">
-                <a href="page-profile.html" class="btn btn_navLink">
-                    <div class="icon_current">
-                        <svg id="Iconly_Curved_Setting" data-name="Iconly/Curved/Setting" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g id="Setting" transform="translate(3.5 2.5)">
-                                <path id="Stroke_1" data-name="Stroke 1" d="M2.5,0A2.5,2.5,0,1,1,0,2.5,2.5,2.5,0,0,1,2.5,0Z" transform="translate(6 7)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                <path id="Stroke_3" data-name="Stroke 3" d="M16.668,4.75h0a2.464,2.464,0,0,0-3.379-.912,1.543,1.543,0,0,1-2.314-1.346A2.484,2.484,0,0,0,8.5,0h0A2.484,2.484,0,0,0,6.025,2.492,1.543,1.543,0,0,1,3.712,3.839a2.465,2.465,0,0,0-3.38.912,2.5,2.5,0,0,0,.906,3.4,1.56,1.56,0,0,1,0,2.692,2.5,2.5,0,0,0-.906,3.4,2.465,2.465,0,0,0,3.379.913h0a1.542,1.542,0,0,1,2.313,1.345h0A2.484,2.484,0,0,0,8.5,19h0a2.484,2.484,0,0,0,2.474-2.492h0a1.543,1.543,0,0,1,2.314-1.345,2.465,2.465,0,0,0,3.379-.913,2.5,2.5,0,0,0-.905-3.4h0a1.56,1.56,0,0,1,0-2.692A2.5,2.5,0,0,0,16.668,4.75Z" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                            </g>
-                        </svg>
-      
-                    </div>
-      
-                    <div class="txt__tile">Settings</div>
-                </a>
-            </div>
-        </div>
-      </footer>
-      <div class="modal sidebarMenu -left fade" id="mdllSidebarMenu-background" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header d-block">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="tio-clear"></i>
-                    </button>
-                    <div class="em_profile_user">
-                        <div class="media">
-                            <a href="page-profile.html">
-                                <!-- You can use an image -->
-                                <!-- <img class="_imgUser" src="assets/img/person.png" alt=""> -->
-                                <div class="letter bg-yellow">
-                                    <span>c</span>
-                                </div>
-                            </a>
-                            <div class="media-body">
-                                <div class="txt">
-                                    <h3>Calvin Bell</h3>
-                                    <p>+1 6540 605 490</p>
-                                    <a href="#" class="btn btn_logOut">Sign out</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-body">
-                    <ul class="nav flex-column -active-links">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Discovery" data-name="Iconly/Curved/Discovery" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Discovery" transform="translate(2.292 2.292)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M0,7.708c0,5.781,1.927,7.708,7.708,7.708s7.708-1.927,7.708-7.708S13.489,0,7.708,0,0,1.927,0,7.708Z" transform="translate(0 0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_3" data-name="Stroke 3" d="M0,5.5,1.312,1.312,5.5,0,4.192,4.191Z" transform="translate(4.957 4.957)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">Discover</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="app-homes.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Home" data-name="Iconly/Curved/Home" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Home" transform="translate(2 1.667)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M0,.5H4.846" transform="translate(5.566 11.28)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_2" data-name="Stroke 2" d="M0,9.761C0,5.068.512,5.4,3.266,2.842,4.471,1.872,6.346,0,7.965,0S11.5,1.862,12.712,2.842c2.754,2.554,3.265,2.227,3.265,6.919,0,6.906-1.633,6.906-7.988,6.906S0,16.667,0,9.761Z" transform="translate(0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">Homepages</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="app-components.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_More_Circle" data-name="Iconly/Curved/More Circle" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="More_Circle" data-name="More Circle" transform="translate(2.292 2.292)">
-                                                <path id="Stroke_4" data-name="Stroke 4" d="M0,7.708C0,1.927,1.927,0,7.708,0s7.708,1.927,7.708,7.708-1.927,7.708-7.708,7.708S0,13.489,0,7.708Z" transform="translate(0 0)" fill="none" stroke="#556fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_11" data-name="Stroke 11" d="M.5.5H.5" transform="translate(9.883 8.792)" fill="none" stroke="#556fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                                                <path id="Stroke_13" data-name="Stroke 13" d="M.5.5H.5" transform="translate(7.383 5.458)" fill="none" stroke="#556fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                                                <path id="Stroke_15" data-name="Stroke 15" d="M.5.5H.5" transform="translate(4.876 8.792)" fill="none" stroke="#556fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">Components</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="app-pages.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Document" data-name="Iconly/Curved/Document" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Document" transform="translate(3.008 2.292)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M6.017.5H0" transform="translate(3.971 10.289)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_2" data-name="Stroke 2" d="M6.017.5H0" transform="translate(3.971 7.155)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_3" data-name="Stroke 3" d="M2.3.5H0" transform="translate(3.972 4.023)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_4" data-name="Stroke 4" d="M0,7.708c0,5.781,1.748,7.708,6.992,7.708s6.992-1.927,6.992-7.708S12.238,0,6.992,0,0,1.927,0,7.708Z" transform="translate(0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-
-                                    <span class="title_link">Pages</span>
-                                </div>
-
-                            </a>
-                        </li>
-                        <label class="title__label">other</label>
-                        <li class="nav-item">
-                            <a class="nav-link" href="page-profile.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Setting" data-name="Iconly/Curved/Setting" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Setting" transform="translate(2.917 2.083)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M2.083,0A2.083,2.083,0,1,1,0,2.083,2.083,2.083,0,0,1,2.083,0Z" transform="translate(5 5.833)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_3" data-name="Stroke 3" d="M13.89,3.959h0a2.053,2.053,0,0,0-2.816-.76A1.286,1.286,0,0,1,9.145,2.077,2.07,2.07,0,0,0,7.083,0h0A2.07,2.07,0,0,0,5.021,2.077,1.286,1.286,0,0,1,3.093,3.2a2.054,2.054,0,0,0-2.817.76A2.085,2.085,0,0,0,1.031,6.8a1.3,1.3,0,0,1,0,2.243,2.085,2.085,0,0,0-.755,2.837,2.054,2.054,0,0,0,2.816.761h0a1.285,1.285,0,0,1,1.928,1.121h0a2.07,2.07,0,0,0,2.062,2.077h0a2.07,2.07,0,0,0,2.062-2.077h0a1.286,1.286,0,0,1,1.929-1.121,2.054,2.054,0,0,0,2.816-.761,2.085,2.085,0,0,0-.754-2.837h0a1.3,1.3,0,0,1,0-2.243A2.085,2.085,0,0,0,13.89,3.959Z" transform="translate(0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">Settings</span>
-                                </div>
-                                <div class="em_pulp">
-                                    <span class="doted_item"></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="page-support.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Message" data-name="Iconly/Curved/Message" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Message" transform="translate(2.043 2.377)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M9.292,0S6.617,3.211,4.661,3.211,0,0,0,0" transform="translate(3.285 5.139)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_3" data-name="Stroke 3" d="M0,7.6C0,1.9,1.984,0,7.937,0s7.937,1.9,7.937,7.6-1.984,7.6-7.937,7.6S0,13.295,0,7.6Z" transform="translate(0 0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">Support</span>
-                                </div>
-
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="page-about.html">
-                                <div class="">
-                                    <div class="icon_current">
-                                        <svg id="Iconly_Curved_Info_Square" data-name="Iconly/Curved/Info Square" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                                            <g id="Info_Square" data-name="Info Square" transform="translate(2.292 2.292)">
-                                                <path id="Stroke_1" data-name="Stroke 1" d="M0,7.708C0,1.927,1.927,0,7.708,0s7.708,1.927,7.708,7.708-1.927,7.708-7.708,7.708S0,13.489,0,7.708Z" transform="translate(15.417 15.417) rotate(180)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_3" data-name="Stroke 3" d="M0,0V3.246" transform="translate(7.708 10.954) rotate(180)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                                <path id="Stroke_15" data-name="Stroke 15" d="M0,0H.007" transform="translate(7.712 4.792) rotate(180)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <span class="title_link">About</span>
-                                </div>
-
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <div class="em_darkMode_menu">
-                        <label class="text" for="switchDarkMode">
-                            <h3>Dark Mode</h3>
-                            <p>Browsing in night mode</p>
-                        </label>
-                        <label class="switch_toggle toggle_lg" for="switchDarkMode">
-                            <input type="checkbox" class="switchDarkMode" id="switchDarkMode">
-                            <span class="handle"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Legend Puasa -->
+    <div class="legend-container">
+      <div class="legend-item">
+        <div class="legend-color legend-senin-kamis"></div>
+        <div>Puasa Senin-Kamis</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-ayyamul-bidh"></div>
+        <div>13–15 Puasa Ayyamul Bidh</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-ramadhan"></div>
+        <div>Puasa Ramadhan</div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color legend-idul-fitri"></div>
+        <div>Idul Fitri</div>
+      </div>
     </div>
 
+    <script>
+      // Daftar nama bulan Hijriyah
+      const hijriMonthNames = [
+        "Muharram",
+        "Safar",
+        "Rabiul Awal",
+        "Rabiul Akhir",
+        "Jumadil Awal",
+        "Jumadil Akhir",
+        "Rajab",
+        "Syaban",
+        "Ramadhan",
+        "Syawal",
+        "Zulkaidah",
+        "Dzulhijjah",
+      ];
 
-  </div>
+      // Tahun Hijriyah default dan variabel untuk tampilan mobile
+      let currentHijriYear = 1446;
+      let currentMobileMonth = 1; // akan di-set sesuai tanggal hari ini
 
-</body>
+      // Fungsi untuk mendapatkan default bulan Hijriyah berdasarkan tanggal hari ini
+      function getDefaultHijriMonth() {
+        let today = new Date();
+        // Iterasi di tahun sekitar currentHijriYear agar sesuai dengan tanggal hari ini
+        for (
+          let yearCandidate = currentHijriYear - 1;
+          yearCandidate <= currentHijriYear + 1;
+          yearCandidate++
+        ) {
+          for (let m = 1; m <= 12; m++) {
+            let startGreg = hijriToGregorian(yearCandidate, m, 1);
+            let nextGreg =
+              m < 12
+                ? hijriToGregorian(yearCandidate, m + 1, 1)
+                : hijriToGregorian(yearCandidate + 1, 1, 1);
+            if (today >= startGreg && today < nextGreg) {
+              currentHijriYear = yearCandidate; // update tahun jika diperlukan
+              return m;
+            }
+          }
+        }
+        return 1; // fallback bila tidak ditemukan
+      }
 
-<script src="assets/js/script_kalender.js"></script>
+      // Saat halaman load
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.innerWidth < 768) {
+          currentMobileMonth = getDefaultHijriMonth();
+          renderMobileHijriMonth();
+        } else {
+          renderHijriYearCalendar(currentHijriYear);
+        }
+      });
 
+      // Navigasi tampilan desktop (per tahun)
+      document
+        .getElementById("prevYearBtn")
+        .addEventListener("click", function () {
+          currentHijriYear--;
+          renderHijriYearCalendar(currentHijriYear);
+        });
+      document
+        .getElementById("nextYearBtn")
+        .addEventListener("click", function () {
+          currentHijriYear++;
+          renderHijriYearCalendar(currentHijriYear);
+        });
 
- <!-- jquery -->
- <script src="assets/js/jquery-3.6.0.js"></script>
- <!-- popper.min.js 1.16.1 -->
- <script src="assets/js/popper.min.js"></script>
- <!-- bootstrap.js v4.6.0 -->
- <script src="assets/js/bootstrap.min.js"></script>
+      // Navigasi tampilan mobile (per bulan)
+      if (document.getElementById("prevMonthBtn")) {
+        document
+          .getElementById("prevMonthBtn")
+          .addEventListener("click", function () {
+            currentMobileMonth--;
+            if (currentMobileMonth < 1) {
+              currentMobileMonth = 12;
+              currentHijriYear--;
+            }
+            renderMobileHijriMonth();
+          });
+      }
+      if (document.getElementById("nextMonthBtn")) {
+        document
+          .getElementById("nextMonthBtn")
+          .addEventListener("click", function () {
+            currentMobileMonth++;
+            if (currentMobileMonth > 12) {
+              currentMobileMonth = 1;
+              currentHijriYear++;
+            }
+            renderMobileHijriMonth();
+          });
+      }
 
- <!-- Owl Carousel v2.3.4 -->
- <script src="assets/js/vendor/owl.carousel.min.js"></script>
- <!-- Swiper 6.4.11 -->
- <script src="assets/js/vendor/swiper-bundle.min.js"></script>
- <!-- sharer 0.4.0 -->
- <script src="assets/js/vendor/sharer.js"></script>
- <!-- short-and-sweet v1.0.2 - Accessible character counter for input elements -->
- <script src="assets/js/vendor/short-and-sweet.min.js"></script>
- <!-- jquery knob -->
- <script src="assets/js/vendor/jquery.knob.min.js"></script>
- <!-- main.js -->
- <script src="assets/js/main.js" defer></script>
- <!-- PWA app service registration and works js -->
- <script src="assets/js/pwa-services.js"></script>
+      // Fungsi render untuk tampilan desktop (12 bulan dalam 1 tahun)
+      function renderHijriYearCalendar(hYear) {
+        document.getElementById("yearTitle").textContent = hYear + " H";
+        const yearGrid = document.getElementById("yearGrid");
+        yearGrid.innerHTML = "";
+        for (let m = 1; m <= 12; m++) {
+          const monthCard = document.createElement("div");
+          monthCard.className = "month-card";
+
+          const monthHeader = document.createElement("div");
+          monthHeader.className = "month-header";
+          monthHeader.textContent = hijriMonthNames[m - 1] + " " + hYear;
+          monthCard.appendChild(monthHeader);
+
+          const dayNamesDiv = document.createElement("div");
+          dayNamesDiv.className = "day-names";
+          const dayLabels = ["Ahd", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+          dayLabels.forEach((lbl) => {
+            const dEl = document.createElement("div");
+            dEl.textContent = lbl;
+            dayNamesDiv.appendChild(dEl);
+          });
+          monthCard.appendChild(dayNamesDiv);
+
+          const calendarGrid = document.createElement("div");
+          calendarGrid.className = "calendar-grid";
+          monthCard.appendChild(calendarGrid);
+
+          renderHijriMonth(hYear, m, calendarGrid);
+          yearGrid.appendChild(monthCard);
+        }
+      }
+
+      // Fungsi render untuk tampilan mobile (satu bulan per tampilan)
+      function renderMobileHijriMonth() {
+        const mobileContainer = document.getElementById("mobileMonthContainer");
+        mobileContainer.innerHTML = "";
+        document.getElementById("mobileMonthTitle").textContent =
+          hijriMonthNames[currentMobileMonth - 1] + " " + currentHijriYear;
+        const monthCard = document.createElement("div");
+        monthCard.className = "month-card";
+
+        // Buat elemen .month-header seperti biasa
+        const monthHeader = document.createElement("div");
+        monthHeader.className = "month-header";
+
+        // Buat wadah flex di dalam monthHeader
+        const headerContainer = document.createElement("div");
+        headerContainer.className = "header-container"; // akan di-styling via CSS
+
+        // Bagian kiri: Hijri
+        const hijriLeft = document.createElement("div");
+        hijriLeft.className = "hijri-left";
+        hijriLeft.textContent = `${
+          hijriMonthNames[currentMobileMonth - 1]
+        } ${currentHijriYear}`;
+
+        // Bagian kanan: Tanggal dan waktu (tanpa detik)
+        let now = new Date();
+        let dateOptions = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        let dateString = now.toLocaleDateString("id-ID", dateOptions);
+        // Hilangkan detik dari jam
+        let timeOptions = { hour: "2-digit", minute: "2-digit" };
+        let timeString = now.toLocaleTimeString("id-ID", timeOptions);
+
+        const dateRight = document.createElement("div");
+        dateRight.className = "date-right";
+        dateRight.innerHTML = `${dateString}<br>${timeString}`;
+
+        // Masukkan kedua elemen ke headerContainer
+        headerContainer.appendChild(hijriLeft);
+        headerContainer.appendChild(dateRight);
+
+        // Masukkan headerContainer ke dalam monthHeader
+        monthHeader.appendChild(headerContainer);
+
+        // Terakhir, masukkan monthHeader ke dalam monthCard
+        monthCard.appendChild(monthHeader);
+
+        const dayNamesDiv = document.createElement("div");
+        dayNamesDiv.className = "day-names";
+        const dayLabels = ["Ahd", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+        dayLabels.forEach((lbl) => {
+          const dEl = document.createElement("div");
+          dEl.textContent = lbl;
+          dayNamesDiv.appendChild(dEl);
+        });
+        monthCard.appendChild(dayNamesDiv);
+
+        const calendarGrid = document.createElement("div");
+        calendarGrid.className = "calendar-grid";
+        monthCard.appendChild(calendarGrid);
+
+        renderHijriMonth(currentHijriYear, currentMobileMonth, calendarGrid);
+        mobileContainer.appendChild(monthCard);
+      }
+
+      // Fungsi untuk merender kalender satu bulan
+      function renderHijriMonth(hYear, hMonth, containerEl) {
+        containerEl.innerHTML = "";
+        const startGreg = hijriToGregorian(hYear, hMonth, 1);
+        const nextGreg =
+          hMonth < 12
+            ? hijriToGregorian(hYear, hMonth + 1, 1)
+            : hijriToGregorian(hYear + 1, 1, 1);
+        const daysInMonth = dateDiffInDays(startGreg, nextGreg);
+        const startWeekday = startGreg.getDay();
+        for (let i = 0; i < startWeekday; i++) {
+          const emptyCell = document.createElement("div");
+          emptyCell.className = "calendar-cell";
+          containerEl.appendChild(emptyCell);
+        }
+        for (let d = 1; d <= daysInMonth; d++) {
+          const cell = document.createElement("div");
+          cell.classList.add("calendar-cell");
+          const currentGreg = addDays(startGreg, d - 1);
+          const weekday = currentGreg.getDay();
+          if (weekday === 0) {
+            cell.classList.add("sunday");
+          }
+
+          // Jika bulan adalah Ramadhan, highlight semua hari (1-30) dengan warna khusus
+          if (hMonth === 9) {
+            cell.classList.add("puasa-ramadhan");
+          } else {
+            if (weekday === 1 || weekday === 4) {
+              cell.classList.add("puasa-senin-kamis");
+            }
+            if (d >= 13 && d <= 15) {
+              cell.classList.add("puasa-ayyamul-bidh");
+            }
+          }
+
+          // Jika bulan Syawal dan hari pertama, maka highlight sebagai Idul Fitri
+          if (hMonth === 10 && d === 1) {
+            cell.classList.add("idul-fitri");
+          }
+
+          cell.innerHTML = `
+          <div class="date-hijri">${d}</div>
+          <div class="date-greg">${currentGreg.getDate()} ${getGregMonthName(
+            currentGreg.getMonth() + 1
+          )}</div>
+        `;
+          containerEl.appendChild(cell);
+        }
+      }
+
+      // Fungsi bantu konversi dan utilitas
+      function hijriToGregorian(hYear, hMonth, hDay) {
+        const jd =
+          Math.floor((11 * hYear + 3) / 30) +
+          354 * hYear +
+          30 * hMonth -
+          Math.floor((hMonth - 1) / 2) +
+          hDay +
+          1948440 -
+          385;
+        let l = jd + 68569;
+        const n = Math.floor((4 * l) / 146097);
+        l = l - Math.floor((146097 * n + 3) / 4);
+        const i = Math.floor((4000 * (l + 1)) / 1461001);
+        l = l - Math.floor((1461 * i) / 4) + 31;
+        const j = Math.floor((80 * l) / 2447);
+        const day = l - Math.floor((2447 * j) / 80);
+        l = Math.floor(j / 11);
+        const month = j + 2 - 12 * l;
+        const year = 100 * (n - 49) + i + l;
+        return new Date(year, month - 1, day);
+      }
+
+      function dateDiffInDays(a, b) {
+        const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+        return Math.round((b - a) / _MS_PER_DAY);
+      }
+
+      function addDays(date, days) {
+        const result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
+
+      function getGregMonthName(m) {
+        const names = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "Mei",
+          "Jun",
+          "Jul",
+          "Agu",
+          "Sep",
+          "Okt",
+          "Nov",
+          "Des",
+        ];
+        return names[m - 1];
+      }
+    </script>
+  </body>
 </html>
