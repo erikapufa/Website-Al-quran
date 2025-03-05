@@ -1,0 +1,258 @@
+/* Reset dan pengaturan dasar */
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+/* Flex container untuk membagi halaman */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.fixed-section {
+  flex: none;
+  background: #f5f5f5;
+  padding-bottom: 20px;
+  transition: background 0.3s;
+}
+/* Header tetap di atas */
+.header-section {
+  text-align: center;
+  padding: 10px;
+  color: white;
+  background-color: #1a7288;
+  border-bottom: 1px solid #ddd;
+}
+.container {
+  max-width: 1000px;
+  margin: 20px auto 0 auto;
+}
+.card {
+  width: 60%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  margin: 0 auto;
+}
+h4 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  transition: color 0.3s;
+}
+/* Tampilan dark mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+body.dark-mode .fixed-section {
+  background-color: #1e1e1e;
+}
+body.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+body.dark-mode h4 {
+  color: #fff;
+}
+body.dark-mode label {
+  color: #ccc;
+}
+body.dark-mode select {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+}
+body.dark-mode .table-container {
+  border: 1px solid #444;
+}
+table.dark-mode {
+  background-color: #1e1e1e;
+  color: #fff;
+  border-color: #444;
+}
+table.dark-mode th {
+  background-color: #1a7288;
+  color: #fff;
+}
+table.dark-mode td {
+  border-color: #444;
+}
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+.col-md-3 {
+  flex: 1;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+}
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+select:focus {
+  border-color: #007bff;
+}
+@media (max-width: 768px) {
+  select {
+    width: 100%;
+    max-width: 600px;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* Area scroll (menggunakan flex) */
+.scroll-section {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+}
+/* Kontainer tabel */
+.table-container {
+  width: 100%;
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 0;
+  transition: border 0.3s;
+}
+table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+.table-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 100px;
+}
+th {
+  background-color: #1a7288;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #1a7288;
+  color: white;
+  z-index: 100;
+}
+#judul-jadwal {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 20px auto 0 auto;
+  text-align: center;
+  max-width: 800px;
+  transition: color 0.3s;
+}
+.formattedToday {
+  background-color: #198754 !important;
+  color: white;
+}
+body.dark-mode #prayer-notification {
+  color: #1a9fda !important;
+}
+
+#daily-date {
+  text-align: center;
+  font-size: 15px;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+/* Elemen notifikasi dan marquee */
+#prayer-notification {
+  position: relative;
+  width: 100%;
+  margin: 10px auto;
+  overflow: hidden;
+  height: 2em;
+  line-height: 2em;
+  font-weight: bold;
+  color: #1a7288;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+#prayer-notification span {
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
+  animation: marquee 10s linear infinite;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+/* Tombol toggle */
+.toggle-btn-group-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.toggle-btn-group {
+  display: inline-flex;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.toggle-btn {
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
+}
+.toggle-btn.active {
+  background-color: #007bff;
+  color: #fff;
+}
+.toggle-btn:not(.active) {
+  background-color: #6c757d;
+  color: #000;
+}

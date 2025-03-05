@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalender Hijriah</title>
+
+  <!-- Google Fonts: Lobster (untuk judul bulan), Poppins (untuk teks utama) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;600&display=swap" />
+
+  <!-- (Opsional) Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== Global Style ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fceff1; /* Latar belakang pink muda */
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #b24b67;
+  font-weight: 700;
+}
+.header-year {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #b24b67;
+}
+.nav-year {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.nav-year button {
+  border: 2px solid #b24b67;
+  background: #fff;
+  color: #b24b67;
+  padding: 8px 16px;
+  border-radius: 25px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.nav-year button:hover {
+  background: #b24b67;
+  color: #fff;
+}
+/* ===== Container Kartu Kalender (Grid 3x4) ===== */
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 100%;
+}
+/* ===== Kartu Bulan (versi normal) ===== */
+.month-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3d6db;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.month-card:hover {
+  transform: scale(1.02);
+}
+.month-card-header {
+  background: #9b4c47;
+  color: #fff;
+  padding: 20px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+.month-name {
+  font-family: 'Lobster', cursive;
+  font-size: 1.8rem;
+  margin: 0;
+}
+.month-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  text-align: right;
+}
+.year-range {
+  font-size: 0.85rem;
+  margin: 0;
+}
+.date-range {
+  font-size: 0.75rem;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+.month-card table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  table-layout: fixed;
+}
+.month-card thead tr {
+  background-color: #f8d7dd;
+}
+.month-card th,
+.month-card td {
+  border: 1px solid #f3d6db;
+  text-align: center;
+  padding: 6px;
+  font-size: 0.8rem;
+  color: #555;
+  word-wrap: break-word;
+  vertical-align: middle;
+}
+.month-card th {
+  font-weight: 600;
+  color: #b24b67;
+}
+.calendar-cell .cell-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendar-cell .hijri-date {
+  font-weight: 600;
+  color: #b24b67;
+  font-size: 0.9rem;
+}
+.calendar-cell .greg-date {
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 2px;
+}
+/* ===== Hari Ini (merah lembut) ===== */
+.today .hijri-date {
+  background-color: #ffb3b3;
+  color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  min-width: 30px;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ===== Penanda Puasa & Hari Besar Islam ===== */
+.puasa-senin-kamis { background-color: #d1f7d1; }
+.puasa-ayyamul-bidh { background-color: rgba(179, 229, 252, 0.3); }
+.tasua-asyura { background-color: #fff0b3; }
+.isra-miraj { background-color: #b19cd9; }
+.nishfu-syaban { background-color: #add8e6; }
+.puasa-ramadan { background-color: #fff5e6; border: 2px dashed #ffa200; }
+.nuzul-quran { border: 2px solid #daa520; }
+.idul-fitri { background-color: #98fb98; }
+.puasa-arafah { background-color: #ffcccb; }
+.idul-adha { background-color: #ff7f7f; }
+.hari-tasyriq { background-color: #ffff99; }
+/* ===== Penanda Khusus ===== */
+.new-year { background-color: #ffeb3b; }       /* 1 Muharram */
+.maulid-nabi { background-color: #8bc34a; }    /* 12 Rabiul Awal */
+/* ===== Footer (Catatan) ===== */
+.month-footer {
+  padding: 10px 15px;
+  border-top: 1px solid #f3d6db;
+  font-size: 0.8rem;
+  color: #444;
+}
+.footnote-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.footnote-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footnote-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+/* ===== Modal Overlay ===== */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+/* ===== Versi besar di modal (override font & size) ===== */
+.month-card-larger {
+  width: 90vw;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: auto;
+  margin: auto;
+  position: relative;
+}
+.month-card-larger .month-card-header { padding: 25px; }
+.month-card-larger .month-name { font-size: 2.2rem; }
+.month-card-larger .month-info p { font-size: 0.85rem; }
+.month-card-larger table th,
+.month-card-larger table td { font-size: 1rem; padding: 8px; }
+.month-card-larger .footnote-list { font-size: 0.9rem; }
+/* Tombol close di modal */
+#modal .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
+  background: #b24b67;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  z-index: 9999;
+}
+/* Tombol Next/Prev di dalam modal - DIPASANG DI LUAR CARD */
+.modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background: #b24b67;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 9999;
+}
+.modal-prev {
+  left: 20px;
+}
+.modal-next {
+  right: 20px;
+}
+.modal-nav-btn:hover {
+  background: #fff;
+  color: #b24b67;
+}
+
+/* Pastikan body memiliki padding-bottom cukup agar konten tidak menutupi footer */
+body {
+  margin: 0;
+  padding-bottom: 60px; /* Sesuaikan dengan tinggi footernya */
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #fefefe, #f4f9fd);
+}
+
+/* ====== STYLE UNTUK FOOTER BOTTOM NAVBAR ====== */
+.em_main_footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1C2341; /* Warna latar belakang footer */
+  height: 60px;             /* Tinggi footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Wrapper navigasi di dalam footer */
+.em_main_footer .em_body_navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 500px; /* Batas lebar agar rapi di layar besar */
+  padding: 0 15px;
+}
+
+/* Setiap item link dalam footer */
+.em_main_footer .item_link {
+  flex: 1;
+  text-align: center;
+  position: relative; /* Agar badge notifikasi bisa di-posisi-kan absolute */
+}
+
+/* Link utama di setiap item */
+.em_main_footer .item_link a.btn.btn_navLink {
+  color: #ffffff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: color 0.3s;
+  font-size: 12px; /* Ukuran teks di bawah ikon */
+}
+
+/* Efek hover (opsional) */
+.em_main_footer .item_link a.btn.btn_navLink:hover {
+  color: #d1e0f0;
+}
+
+/* Ikon di atas teks, beri sedikit margin bawah */
+.em_main_footer .item_link .icon_current {
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Supaya warna SVG menyesuaikan dengan color di parent */
+.em_main_footer .item_link .icon_current svg {
+  fill: currentColor; 
+  stroke: currentColor;
+  width: 24px; 
+  height: 24px;
+}
+
+/* Teks di bawah ikon */
+.em_main_footer .item_link .txt__tile {
+  font-size: 10px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Saat link aktif, ganti warna teks + ikon */
+.em_main_footer .item_link a.btn.btn_navLink.active {
+  color: #2C66B8; /* Warna highlight */
+}
+
+/* Efek "lingkaran" pada ikon aktif */
+.em_main_footer .item_link a.btn.btn_navLink.active .icon_current {
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 8px; /* Sesuaikan agar lingkarannya pas */
+}
+
+/* SVG ikon aktif berwarna sesuai highlight */
+.em_main_footer .item_link a.btn.btn_navLink.active svg {
+  fill: #2C66B8;
+  stroke: #2C66B8;
+}
+
+/* Badge notifikasi di atas ikon Shop */
+.items_basket_circle {
+  position: absolute;
+  top: -3px;       /* Sesuaikan agar tepat di atas ikon */
+  right: 20px;     /* Sesuaikan posisi horizontal */
+  background-color: #FF3B30;
+  color: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* ===== Media Queries untuk Responsivitas ===== */
+@media (max-width: 992px) {
+  .calendar-container { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 576px) {
+  .calendar-container { grid-template-columns: 1fr; }
+  h1 { font-size: 1.5rem; }
+  .month-card-header { padding: 15px; }
+  .month-name { font-size: 1.5rem; }
+  .month-info p { font-size: 0.7rem; }
+  .month-card table th,
+  .month-card table td { font-size: 0.7rem; padding: 4px; }
+  .modal-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+  </style>
+  
+</head>
+<body>
+
+  <h1>Kalender Hijriah</h1>
+
+  <div class="header-year">
+    <h2 id="yearDisplay">Tahun Hijriah: </h2>
+  </div>
+
+  <!-- Tombol navigasi tahun -->
+  <div class="nav-year">
+    <button id="prevYear"> &lt; </button>
+    <button id="nextYear"> &gt; </button>
+  </div>
+
+  <div class="calendar-container" id="calendarContainer">
+    <!-- Kartu kalender tiap bulan akan dirender di sini -->
+  </div>
+
+  <!-- Modal -->
+  <div id="modal">
+    <!-- Konten modal akan dibuat dinamis di openModal() -->
+  </div>
+
+  <!-- FOOTER (Custom Footer) -->
+  <footer class="em_main_footer ouline_footer with__text">
+    <div class="em_body_navigation -active-links">
+      <div class="item_link">
+        <a href="app-pages.html" class="btn btn_navLink">
+          <div class="icon_current">
+            <svg id="Iconly_Curved_Document" data-name="Iconly/Curved/Document" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g id="Document" transform="translate(3.61 2.75)">
+                <path id="Stroke_1" data-name="Stroke 1" d="M7.22.5H0" transform="translate(4.766 12.446)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_2" data-name="Stroke 2" d="M7.22.5H0" transform="translate(4.766 8.686)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_3" data-name="Stroke 3" d="M2.755.5H0" transform="translate(4.766 4.927)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_4" data-name="Stroke 4" d="M0,9.25c0,6.937,2.1,9.25,8.391,9.25s8.391-2.313,8.391-9.25S14.685,0,8.391,0,0,2.313,0,9.25Z" transform="translate(0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="txt__tile">Pages</div>
+        </a>
+      </div>
+      <div class="item_link">
+        <a href="app-components.html" class="btn btn_navLink">
+          <div class="icon_current">
+            <svg id="Iconly_Curved_More_Circle" data-name="Iconly/Curved/More Circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g id="More_Circle" data-name="More Circle" transform="translate(2 2)">
+                <path id="Stroke_4" data-name="Stroke 4" d="M0,9.25C0,2.313,2.313,0,9.25,0S18.5,2.313,18.5,9.25,16.187,18.5,9.25,18.5,0,16.187,0,9.25Z" transform="translate(0.75 0.75)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_11" data-name="Stroke 11" d="M.5.5H.5" transform="translate(12.709 11.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
+                <path id="Stroke_13" data-name="Stroke 13" d="M.5.5H.5" transform="translate(9.709 7.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
+                <path id="Stroke_15" data-name="Stroke 15" d="M.5.5H.5" transform="translate(6.7 11.4)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="txt__tile">Elements</div>
+        </a>
+      </div>
+      <!-- Link Home diubah ke ../index2.html -->
+      <div class="item_link">
+        <a href="../index2.html" class="btn btn_navLink without_active">
+          <button type="button" class="btn btnCircle_default rounded-10">
+            <svg id="Iconly_Curved_Home" data-name="Iconly/Curved/Home" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+              <g id="Home" transform="translate(2 1.667)">
+                <path id="Stroke_1" data-name="Stroke 1" d="M0,.5H4.846" transform="translate(5.566 11.28)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_2" data-name="Stroke 2" d="M0,9.761C0,5.068.512,5.4,3.266,2.842,4.471,1.872,6.346,0,7.965,0S11.5,1.862,12.712,2.842c2.754,2.554,3.265,2.227,3.265,6.919,0,6.906-1.633,6.906-7.988,6.906S0,16.667,0,9.761Z" transform="translate(0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+              </g>
+            </svg>
+          </button>
+        </a>
+      </div>
+      <div class="item_link">
+        <a href="page-products-fullwidth.html" class="btn btn_navLink">
+          <div class="icon_current">
+            <svg id="Iconly_Curved_Bag" data-name="Iconly/Curved/Bag" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g id="Bag" transform="translate(2.95 2.55)">
+                <path id="Stroke_1" data-name="Stroke 1" d="M8.659,4.32A4.33,4.33,0,0,0,0,4.3V4.32" transform="translate(4.755 0)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_3" data-name="Stroke 3" d="M.523.5H.477" transform="translate(11.5 8.324)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_5" data-name="Stroke 5" d="M.523.5H.477" transform="translate(5.669 8.324)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_7" data-name="Stroke 7" d="M9.084,14.934c-6.508,0-7.257-2.05-8.718-7.467C-1.1,2.033,1.841,0,9.084,0S19.268,2.033,17.8,7.467C16.341,12.884,15.592,14.934,9.084,14.934Z" transform="translate(0 4.006)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="items_basket_circle">2</div>
+          <div class="txt__tile">Shop</div>
+        </a>
+      </div>
+      <div class="item_link">
+        <a href="page-profile.html" class="btn btn_navLink">
+          <div class="icon_current">
+            <svg id="Iconly_Curved_Setting" data-name="Iconly/Curved/Setting" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g id="Setting" transform="translate(3.5 2.5)">
+                <path id="Stroke_1" data-name="Stroke 1" d="M2.5,0A2.5,2.5,0,1,1,0,2.5,2.5,2.5,0,0,1,2.5,0Z" transform="translate(6 7)" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+                <path id="Stroke_3" data-name="Stroke 3" d="M16.668,4.75h0a2.464,2.464,0,0,0-3.379-.912,1.543,1.543,0,0,1-2.314-1.346A2.484,2.484,0,0,0,8.5,0h0A2.484,2.484,0,0,0,6.025,2.492,1.543,1.543,0,0,1,3.712,3.839a2.465,2.465,0,0,0-3.38.912,2.5,2.5,0,0,0,.906,3.4,1.56,1.56,0,0,1,0,2.692,2.5,2.5,0,0,0-.906,3.4,2.465,2.465,0,0,0,3.379.913h0a1.542,1.542,0,0,1,2.313,1.345h0A2.484,2.484,0,0,0,8.5,19h0a2.484,2.484,0,0,0,2.474-2.492h0a1.543,1.543,0,0,1,2.314-1.345,2.465,2.465,0,0,0,3.379-.913,2.5,2.5,0,0,0-.905-3.4h0a1.56,1.56,0,0,1,0-2.692A2.5,2.5,0,0,0,16.668,4.75Z" fill="none" stroke="#9498ac" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"></path>
+              </g>
+            </svg>
+          </div>
+          <div class="txt__tile">Settings</div>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    const hijriMonths = [
+  "Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir",
+  "Jumadil Awal", "Jumadil Akhir", "Rajab", "Syaban",
+  "Ramadhan", "Syawal", "Zulkaidah", "Dzulhijjah"
+];
+
+// Array global untuk menyimpan semua kartu (month-card)
+let monthCards = [];
+
+let currentHijriyahYear;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date();
+  currentHijriyahYear = Math.floor((today.getFullYear() - 622) * 33 / 32);
+
+  renderYearCalendar(currentHijriyahYear);
+
+  document.getElementById("prevYear").addEventListener("click", () => {
+    currentHijriyahYear--;
+    renderYearCalendar(currentHijriyahYear);
+    scrollToToday();
+  });
+  document.getElementById("nextYear").addEventListener("click", () => {
+    currentHijriyahYear++;
+    renderYearCalendar(currentHijriyahYear);
+    scrollToToday();
+  });
+
+  scrollToToday();
+});
+
+function scrollToToday() {
+  setTimeout(() => {
+    const todayEl = document.querySelector('.today');
+    if (todayEl) {
+      const monthCard = todayEl.closest('.month-card');
+      if (monthCard) {
+        const cardTop = monthCard.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: cardTop, behavior: 'smooth' });
+      }
+    }
+  }, 100);
+}
+
+function renderYearCalendar(hYear) {
+  document.getElementById("yearDisplay").textContent = "Tahun Hijriyah: " + hYear + " H";
+  const container = document.getElementById("calendarContainer");
+  container.innerHTML = "";
+
+  // Kosongkan array monthCards setiap kali render
+  monthCards = [];
+
+  for (let m = 1; m <= 12; m++) {
+    const card = document.createElement("div");
+    card.className = "month-card";
+
+    // Simpan index bulan (m-1) ke attribute data
+    card.dataset.monthIndex = m - 1;
+
+    // Klik card => buka modal
+    card.addEventListener("click", () => {
+      openModal(m - 1);
+    });
+
+    // Hitung rentang
+    const startGreg = hijriToGregorian(hYear, m, 1);
+    const nextGreg = (m < 12)
+      ? hijriToGregorian(hYear, m + 1, 1)
+      : hijriToGregorian(hYear + 1, 1, 1);
+    const daysInMonth = dateDiffInDays(startGreg, nextGreg);
+    const endGreg = addDays(startGreg, daysInMonth - 1);
+    const gregYear = endGreg.getFullYear();
+    const dateRangeStr = `< ${startGreg.getDate()} ${getGregMonthName(startGreg.getMonth() + 1)}
+                          – ${endGreg.getDate()} ${getGregMonthName(endGreg.getMonth() + 1)} >`;
+
+    // Header
+    const headerDiv = document.createElement("div");
+    headerDiv.className = "month-card-header";
+
+    const monthName = document.createElement("h2");
+    monthName.className = "month-name";
+    monthName.textContent = hijriMonths[m - 1];
+    headerDiv.appendChild(monthName);
+
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "month-info";
+
+    const yearRange = document.createElement("p");
+    yearRange.className = "year-range";
+    yearRange.textContent = hYear + " H / " + gregYear;
+    infoDiv.appendChild(yearRange);
+
+    const dateRange = document.createElement("p");
+    dateRange.className = "date-range";
+    dateRange.innerHTML = dateRangeStr;
+    infoDiv.appendChild(dateRange);
+
+    headerDiv.appendChild(infoDiv);
+    card.appendChild(headerDiv);
+
+    // Table
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const trHead = document.createElement("tr");
+    const dayNames = ["Ahd", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+    dayNames.forEach(day => {
+      const th = document.createElement("th");
+      th.textContent = day;
+      trHead.appendChild(th);
+    });
+    thead.appendChild(trHead);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement("tbody");
+    renderMonthTable(hYear, m, tbody);
+    table.appendChild(tbody);
+
+    card.appendChild(table);
+
+    // Footnotes
+    const footnotesDiv = document.createElement("div");
+    footnotesDiv.className = "month-footer";
+
+    // Keterangan di footer (sesuai bulan)
+    if (m === 1) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color new-year"></span>
+            1 Muharram – Tahun Baru Islam
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #d1f7d1;"></span>
+            Senin-Kamis
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: rgba(179, 229, 252, 0.3);"></span>
+            Ayyamul Bidh (13-15)
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #fff0b3;"></span>
+            Tasu'a/Asyura (9-10)
+          </li>
+        </ul>
+      `;
+    } else if (m === 3) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color maulid-nabi"></span>
+            12 Rabiul Awal – Maulid Nabi Muhammad saw
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #d1f7d1;"></span>
+            Senin-Kamis
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: rgba(179, 229, 252, 0.3);"></span>
+            Ayyamul Bidh (13-15)
+          </li>
+        </ul>
+      `;
+    } else if (m === 7) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #b19cd9;"></span>
+            Isra Miraj (27 Rajab)
+          </li>
+        </ul>
+      `;
+    } else if (m === 8) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #add8e6;"></span>
+            Nishfu Syaban (15 Syaban)
+          </li>
+        </ul>
+      `;
+    } else if (m === 9) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="border: 2px dashed #ffa200; display:inline-block;"></span>
+            Puasa Ramadhan (1-30 Ramadhan)
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="border: 2px solid #daa520; display:inline-block;"></span>
+            Nuzulul Qur'an (17 Ramadhan)
+          </li>
+        </ul>
+      `;
+    } else if (m === 10) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #98fb98;"></span>
+            Idul Fitri (1-2 Syawal)
+          </li>
+        </ul>
+      `;
+    } else if (m === 12) {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #ffcccb;"></span>
+            Puasa Arafah (9 Dzulhijjah)
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #ff7f7f;"></span>
+            Idul Adha (10 Dzulhijjah)
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #ffff99;"></span>
+            Hari Tasyriq (11-13 Dzulhijjah)
+          </li>
+        </ul>
+      `;
+    } else {
+      footnotesDiv.innerHTML = `
+        <ul class="footnote-list">
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: #d1f7d1;"></span>
+            Senin-Kamis
+          </li>
+          <li class="footnote-item">
+            <span class="footnote-color" style="background-color: rgba(179, 229, 252, 0.3);"></span>
+            Ayyamul Bidh (13-15)
+          </li>
+        </ul>
+      `;
+    }
+
+    card.appendChild(footnotesDiv);
+    container.appendChild(card);
+
+    // Masukkan card ke array monthCards
+    monthCards.push(card);
+  }
+}
+
+function renderMonthTable(hYear, hMonth, tbodyEl) {
+  tbodyEl.innerHTML = "";
+  const startGreg = hijriToGregorian(hYear, hMonth, 1);
+  const nextGreg = (hMonth < 12)
+    ? hijriToGregorian(hYear, hMonth + 1, 1)
+    : hijriToGregorian(hYear + 1, 1, 1);
+  const daysInMonth = dateDiffInDays(startGreg, nextGreg);
+  const startingWeekday = startGreg.getDay();
+
+  let tr = document.createElement("tr");
+  for (let i = 0; i < startingWeekday; i++) {
+    const emptyTd = document.createElement("td");
+    emptyTd.innerHTML = "&nbsp;";
+    tr.appendChild(emptyTd);
+  }
+
+  const today = new Date();
+  for (let d = 1; d <= daysInMonth; d++) {
+    if (tr.children.length === 7) {
+      tbodyEl.appendChild(tr);
+      tr = document.createElement("tr");
+    }
+    const td = document.createElement("td");
+    td.className = "calendar-cell";
+    const currentGreg = addDays(startGreg, d - 1);
+    const dayOfWeek = currentGreg.getDay();
+
+    // Penanda khusus
+    if (hMonth === 1 && d === 1) {
+      td.classList.add("new-year");
+    }
+    if (hMonth === 3 && d === 12) {
+      td.classList.add("maulid-nabi");
+    }
+
+    // Penanda puasa/hari besar
+    if (dayOfWeek === 1 || dayOfWeek === 4) td.classList.add("puasa-senin-kamis");
+    if (d === 13 || d === 14 || d === 15) td.classList.add("puasa-ayyamul-bidh");
+    if (hMonth === 1 && (d === 9 || d === 10)) td.classList.add("tasua-asyura");
+    if (hMonth === 7 && d === 27) td.classList.add("isra-miraj");
+    if (hMonth === 8 && d === 15) td.classList.add("nishfu-syaban");
+    if (hMonth === 9) {
+      td.classList.add("puasa-ramadan");
+      if (d === 17) td.classList.add("nuzul-quran");
+    }
+    if (hMonth === 10 && (d === 1 || d === 2)) td.classList.add("idul-fitri");
+    if (hMonth === 12 && d === 9) td.classList.add("puasa-arafah");
+    if (hMonth === 12 && d === 10) td.classList.add("idul-adha");
+    if (hMonth === 12 && d >= 11 && d <= 13) td.classList.add("hari-tasyriq");
+
+    // Tandai hari ini
+    if (
+      currentGreg.getDate() === today.getDate() &&
+      currentGreg.getMonth() === today.getMonth() &&
+      currentGreg.getFullYear() === today.getFullYear()
+    ) {
+      td.classList.add("today");
+    }
+    td.innerHTML = `
+      <div class="cell-content">
+        <div class="hijri-date">${d}</div>
+        <div class="greg-date">
+          ${currentGreg.getDate()} ${getGregMonthName(currentGreg.getMonth() + 1)}
+        </div>
+      </div>
+    `;
+    tr.appendChild(td);
+  }
+
+  while (tr.children.length < 7) {
+    const emptyTd = document.createElement("td");
+    emptyTd.innerHTML = "&nbsp;";
+    tr.appendChild(emptyTd);
+  }
+  tbodyEl.appendChild(tr);
+}
+
+// Hijriyah -> Gregorian
+function hijriToGregorian(hYear, hMonth, hDay) {
+  // Contoh override untuk tahun 1446
+  if (hYear === 1446 && hMonth === 1) {
+    const baseDate = new Date(2024, 6, 7);
+    return addDays(baseDate, hDay - 1);
+  }
+  if (hYear === 1446 && hMonth === 2) {
+    const baseDate = new Date(2024, 7, 6);
+    return addDays(baseDate, hDay - 1);
+  }
+  const jd = Math.floor((11 * hYear + 3) / 30)
+            + 354 * hYear
+            + 30 * hMonth
+            - Math.floor((hMonth - 1) / 2)
+            + hDay + 1948440 - 385;
+  let l = jd + 68569;
+  const n = Math.floor((4 * l) / 146097);
+  l = l - Math.floor((146097 * n + 3) / 4);
+  const i = Math.floor((4000 * (l + 1)) / 1461001);
+  l = l - Math.floor((1461 * i) / 4) + 31;
+  const j = Math.floor((80 * l) / 2447);
+  const day = l - Math.floor((2447 * j) / 80);
+  l = Math.floor(j / 11);
+  const month = j + 2 - 12 * l;
+  const year = 100 * (n - 49) + i + l;
+  return new Date(year, month - 1, day);
+}
+function addDays(date, days) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+function dateDiffInDays(a, b) {
+  const MS_PER_DAY = 1000 * 60 * 60 * 24;
+  return Math.round((b - a) / MS_PER_DAY);
+}
+function getGregMonthName(m) {
+  const names = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  return names[m - 1];
+}
+
+/* ==== Modal ==== */
+function openModal(monthIndex) {
+  const modal = document.getElementById("modal");
+  modal.innerHTML = ''; // kosongkan konten modal
+
+  // Tombol close
+  const closeBtn = document.createElement("span");
+  closeBtn.className = "close-btn";
+  closeBtn.innerHTML = "&times;";
+  closeBtn.addEventListener("click", closeModal);
+  modal.appendChild(closeBtn);
+
+  // Klon isi kartu
+  const clonedCard = monthCards[monthIndex].cloneNode(true);
+  clonedCard.classList.add("month-card-larger");
+  modal.appendChild(clonedCard);
+
+  // Tombol Prev (ditaruh di modal, di luar card)
+  if (monthIndex > 0) {
+    const prevBtn = document.createElement("div");
+    prevBtn.className = "modal-nav-btn modal-prev";
+    prevBtn.textContent = "<";
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // mencegah event modal tertutup
+      openModal(monthIndex - 1);
+    });
+    // Append ke modal, bukan ke clonedCard
+    modal.appendChild(prevBtn);
+  }
+
+  // Tombol Next (ditaruh di modal, di luar card)
+  if (monthIndex < 11) {
+    const nextBtn = document.createElement("div");
+    nextBtn.className = "modal-nav-btn modal-next";
+    nextBtn.textContent = ">";
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openModal(monthIndex + 1);
+    });
+    modal.appendChild(nextBtn);
+  }
+
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+  </script>
+</body>
+</html>

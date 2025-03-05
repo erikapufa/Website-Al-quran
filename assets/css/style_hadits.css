@@ -1,0 +1,309 @@
+:root {
+  --primary-color: #213555;
+  --primary-hover: #0056b3;
+  --background-color: #213555; /* Latar belakang utama */
+  --card-bg: white; /* Warna card (gelap) */
+  --diamond-bg: #4f709c; /* Warna diamond untuk nomor */
+  --text-color: #0056b3; /* Warna teks utama */
+  --secondary-text: #9ca3af; /* Warna teks sekunder */
+  --hadith-bg: #f0f0f0; /* Latar belakang hadits */
+  --hadith-text-color: black; /* Warna teks hadits */
+}
+
+/* Reset margin/padding dasar */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Global Styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+/* Judul Halaman Utama */
+h1 {
+  text-align: center;
+  color: #f0f0f0;
+  margin-bottom: 20px;
+}
+
+/* Container Card */
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Responsive: Untuk perangkat dengan lebar maksimal 768px, tampilkan 1 kolom */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Style */
+.card {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  color: var(--text-color);
+  margin-top: 20px;
+  padding: 16px;
+  max-width: 400px;
+  border-radius: 8px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+  cursor: pointer;
+  border: 1px solid transparent; /* Border default transparan */
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  border: 2px solid #51c4d3; /* Border muncul saat hover */
+  background: linear-gradient(135deg, #eaf6f6, #ffffff);
+}
+.number-diamond {
+  width: 40px; /* Lebar sama */
+  height: 40px; /* Tinggi sama */
+  background-color: var(--diamond-bg); /* Menggunakan variabel warna */
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0; /* Jangan dikecilkan oleh flex container */
+}
+
+.number-diamond span {
+  transform: rotate(-45deg);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem; /* Sesuaikan ukuran font */
+  display: block;
+  text-align: center;
+}
+
+/* Isi Card (judul dan keterangan) */
+.card-info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 12px;
+}
+
+.card-info h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s;
+}
+
+.card-info h2::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #51c4d3;
+  margin-top: 5px;
+  transition: width 0.3s;
+}
+
+.card-info p {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  color: var(--secondary-text);
+  transition: color 0.3s;
+}
+
+.card:hover .card-info h2 {
+  color: #51c4d3;
+}
+
+.card:hover .card-info h2::after {
+  width: 100%;
+}
+
+.card:hover p {
+  color: #333;
+}
+
+/* Halaman Hadits */
+#hadithPage {
+  display: none;
+  max-width: 1000px;
+  margin: 10px auto;
+  animation: fadeIn 0.5s;
+}
+
+/* Tombol Kembali */
+.back-btn {
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* Header Hadits */
+.hadith-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.hadith-title-left {
+  font-size: 1.8rem;
+  color: white;
+  font-weight: 600;
+}
+.hadith-title-right {
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+}
+
+/* Form pencarian + subtitle */
+.subtitle-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Semua elemen berada di kiri */
+  margin-bottom: 1em;
+}
+
+/* Pastikan subtitle tidak punya margin bawah berlebih */
+.subtitle-search-container .hadith-subtitle {
+  margin: 0;
+}
+
+/* Pengaturan form agar rapi di satu baris */
+.subtitle-search-container .search-form form {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Jarak antara input dan tombol */
+}
+
+.search-form {
+  margin: 0;
+  text-align: left; /* Pastikan isi form rata kiri */
+}
+/* Style input dan button */
+.subtitle-search-container .search-form input[type="number"] {
+  padding: 5px;
+  width: 150px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.subtitle-search-container .search-form button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+}
+
+.subtitle-search-container .search-form button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Subtitle Hadits */
+.hadith-subtitle {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 0.5em;
+  display: none;
+}
+.hadith-divider {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+/* Kotak konten hadits */
+.hadith-box {
+  background-color: var(--hadith-bg);
+  border-radius: 8px;
+  padding: 20px;
+  color: var(--hadith-text-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.hadith-box p {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+.arab {
+  font-size: 2rem;
+  direction: rtl;
+  text-align: right;
+  margin-bottom: 0.5em;
+}
+.arti {
+  color: #333;
+  font-size: 1.2rem;
+  font-style: italic;
+  text-align: justify;
+}
+
+/* Pagination */
+#pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+#pagination button {
+  background: #e8f9ff;
+  color: #213555;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#pagination button:hover {
+  background: opacity(0.8);
+}
+
+/* Animasi Halus */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+               Tambahkan media query khusus untuk
+               tampilan hadits agar lebih mobile-friendly
+            ========================================= */
+@media (max-width: 600px) {
+  /* Header hadits menumpuk (vertical) */
+  .subtitle-search-container .hadith-subtitle {
+    margin-bottom: 0; /* Hilangkan margin bawah */
+  }
+
+  /* Perkecil sedikit ukuran teks Arab di layar kecil (opsional) */
+  .arab {
+    font-size: 1.2rem;
+  }
+
+  /* Form penuh lebar di tampilan mobile */
+  .form {
+    width: 20% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+  }
+
+  .hadith-subtitle {
+    display: none;
+  }
+}

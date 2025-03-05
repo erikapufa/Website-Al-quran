@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kumpulan Doa</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-p1UuZ8i1rXvU1JQ7Nj+/V1hC7BRaClB2Tq/KppQ1sjpvWQMyJEkwR7zJ+w4rZgCvj+gj5ZVOZoIVat1V8a8h0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/assets/css/style_doa.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Container Utama -->
+      <div id="doa-container">
+        <h2>Daftar Doa</h2>
+        <!-- Form Pencarian -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend"></div>
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="Masukkan kata kunci..."
+              v-model="searchQuery"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <!-- Menambahkan class col-12 agar full-width di mobile -->
+          <div
+            class="col-12 col-md-4 mb-3"
+            v-for="doa in paginatedDoas"
+            :key="doa.id"
+          >
+            <div class="card" @click.prevent="openDetailModal(doa.id)">
+              <div class="card-body d-flex align-items-center">
+                <!-- Diamond -->
+                <div class="diamond mr-3">
+                  <span>{{ doa.id }}</span>
+                </div>
+                <div>
+                  <!-- Judul -->
+                  <h5 class="card-title mb-0">{{ doa.judul }}</h5>
+                  <!-- Garis kecil -->
+                  <div class="small-line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigasi halaman -->
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+              <a class="page-link" href="#" @click.prevent="previousPage"
+                >Prev</a
+              >
+            </li>
+            <li
+              class="page-item"
+              v-for="page in pages"
+              :key="page"
+              :class="{ active: page === currentPage }"
+            >
+              <a class="page-link" href="#" @click.prevent="goToPage(page)"
+                >{{ page }}</a
+              >
+            </li>
+            <li
+              class="page-item"
+              :class="{ disabled: currentPage === totalPages }"
+            >
+              <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Modal Detail Doa -->
+      <div
+        class="modal fade"
+        id="detailModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="detailModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ detail.judul }}</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Tutup"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="doa-arab">{{ detail.arab }}</p>
+              <p class="latin">{{ detail.latin }}</p>
+              <p class="indo">{{ detail.indo }}</p>
+              <p class="sumber"><strong>Sumber:</strong> {{ detail.source }}</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Doa Tersimpan -->
+      <div
+        class="modal fade"
+        id="savedDoasModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="savedDoasModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Doa Tersimpan</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Tutup"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul>
+                <li v-for="savedDoa in savedDoas" :key="savedDoa.id">
+                  <a href="#" @click.prevent="goToSavedDoa(savedDoa)"
+                    >{{ savedDoa.judul }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery, Popper, Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/assets/js/script_doa.js"></script>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+/* Definisi variabel warna */
+      :root {
+        --primary-color: #213555;
+        --primary-hover: #0056b3;
+        --background-color: #213555;
+        --card-bg: white;
+        --diamond-bg: #4f709c; /* Warna berlian */
+        --text-color: #0056b3;
+        --secondary-text: #9ca3af;
+        --line-color: #2dd4bf; /* Warna garis kecil di bawah judul */
+      }
+
+      body {
+        background-color: var(--background-color);
+        color: var(--secondary-text);
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+      }
+
+      /* Container utama */
+      #doa-container {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        text-align: center;
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+
+      a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      a:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+      }
+
+      /* Gaya pagination */
+      .pagination .page-link {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--primary-color);
+      }
+      .pagination .page-item.active .page-link {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: var(--card-bg);
+      }
+
+      #searchInput {
+        width: 100%;
+        border-radius: 10px;
+        border-color: #213555;
+        max-width: 400px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+      /* Gaya untuk modal */
+      .modal-header {
+        background: var(--primary-color);
+        color: var(--card-bg);
+      }
+      .modal-content {
+        border-radius: 10px;
+      }
+      /* Mengatur modal agar lebarnya 80% dari layar desktop */
+      .modal-dialog {
+        max-width: 60% !important;
+      }
+
+      .doa-arab {
+        font-size: 30px;
+        margin-bottom: 10px;
+        text-align: right;
+        font-weight: bold;
+        color: black;
+      }
+      .latin {
+        text-align: left;
+        font-size: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: #0056b3;
+        font-style: italic;
+      }
+      .indo {
+        text-align: left;
+        font-size: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: black;
+      }
+      .sumber {
+        text-align: right;
+        font-size: 15px;
+        margin-top: 10px;
+        color: grey;
+      }
+      /* Gaya kartu doa */
+      .card {
+        background: #eff3ea;
+        height: 150px;
+        transition: transform 0.2s;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: scale(1.02);
+      }
+
+      /* Diamond (belah ketupat) untuk menampilkan nomor */
+      .diamond {
+        width: 40px;
+        height: 40px;
+        background-color: var(--diamond-bg);
+        transform: rotate(45deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .diamond span {
+        color: #fff;
+        font-weight: bold;
+        transform: rotate(-45deg);
+        display: block;
+        font-size: 14px;
+        line-height: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      /* Gaya judul di dalam card */
+      .card-title {
+        font-weight: bold;
+        color: var(--text-color);
+        font-weight: 600;
+        margin: 0;
+      }
+
+      /* Garis kecil di bawah judul */
+      .small-line {
+        width: 70px;
+        height: 2px;
+        background-color: var(--line-color);
+        margin: 4px 0;
+      }
+
+      /* Media query untuk perangkat mobile */
+      @media (max-width: 768px) {
+        body {
+          margin: 10px;
+          padding: 10px;
+        }
+        /* Ubah modal agar lebarnya mendekati full width */
+        .modal-dialog {
+          max-width: 100% !important;
+        }
+        .doa-arab {
+          font-size: 24px;
+        }
+        .latin,
+        .indo,
+        .sumber {
+          font-size: 14px;
+        }
+        /* Pastikan kartu doa menyesuaikan tingginya */
+        .card {
+          height: auto;
+          padding: 10px;
+        }
+      }
